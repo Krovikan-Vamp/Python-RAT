@@ -58,7 +58,7 @@
    'PYSOURCE'),
   ('client',
    'C:\\Users\\zhatch\\OneDrive - Kobargo Technology '
-   'Partners\\Desktop\\Security\\Python-RAT\\client.py',
+   'Partners\\Desktop\\Security\\Python-RAT\\client.pyw',
    'PYSOURCE')],
  True,
  False,

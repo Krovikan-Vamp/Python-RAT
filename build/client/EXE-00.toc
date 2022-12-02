@@ -1,9 +1,9 @@
 ('C:\\Users\\zhatch\\OneDrive - Kobargo Technology '
  'Partners\\Desktop\\Security\\Python-RAT\\build\\client\\client.exe',
- True,
+ False,
  False,
  True,
- 'C:\\Users\\zhatch\\AppData\\Local\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\bootloader\\images\\icon-console.ico',
+ 'C:\\Users\\zhatch\\AppData\\Local\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\bootloader\\images\\icon-windowed.ico',
  None,
  False,
  False,
@@ -66,12 +66,12 @@
    'PYSOURCE'),
   ('client',
    'C:\\Users\\zhatch\\OneDrive - Kobargo Technology '
-   'Partners\\Desktop\\Security\\Python-RAT\\client.py',
+   'Partners\\Desktop\\Security\\Python-RAT\\client.pyw',
    'PYSOURCE')],
  [],
  False,
  False,
- 1669930677,
- [('run.exe',
-   'C:\\Users\\zhatch\\AppData\\Local\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit\\run.exe',
+ 1670022623,
+ [('runw.exe',
+   'C:\\Users\\zhatch\\AppData\\Local\\Programs\\Python\\Python310\\lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit\\runw.exe',
    'EXECUTABLE')])

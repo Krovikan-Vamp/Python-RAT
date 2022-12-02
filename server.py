@@ -303,7 +303,7 @@ readfile <file>           read from file
             elif command[1:2] == ':':
                 self.result()
 
-            elif command == 'dir' or 'ls':
+            elif command == 'dir':
                 self.result()
 
             elif command == 'portscan':
