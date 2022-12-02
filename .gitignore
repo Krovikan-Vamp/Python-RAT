@@ -1,0 +1,6 @@
+*.toc
+*.zip
+*.pkg
+*.html
+*.pyc
+/build
