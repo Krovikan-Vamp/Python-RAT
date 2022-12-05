@@ -3,4 +3,4 @@
 *.pkg
 *.html
 *.pyc
-/build
+build/

