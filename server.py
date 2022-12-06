@@ -421,8 +421,7 @@ readfile <file>           read from file
                 elif command == 'upload':
                     client.send(command.encode())
                     file = str(input("Enter the filepath to the file: "))
-                    filename = str(
-                        input("Enter the filepath to outcoming file (with filename and extension): "))
+                    filename = str(input("Enter the filepath to outcoming file (with filename and extension): "))
                     data = open(file, 'rb')
                     filedata = data.read(10000)
                     client.send(filename.encode())
